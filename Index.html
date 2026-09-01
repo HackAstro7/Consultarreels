@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Consulta Instagram · 1 uso</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0b0d15;
+            color: #eef2f6;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 2rem 1rem;
+            background-image: radial-gradient(circle at 20% 30%, #1a1f33 0%, #0b0d15 70%);
+            perspective: 1200px;
+        }
+        .app {
+            max-width: 1000px;
+            width: 100%;
+            transform: rotateX(0.5deg) rotateY(-0.2deg);
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease;
+        }
+        .app:hover {
+            transform: rotateX(0.8deg) rotateY(-0.5deg);
+        }
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 2.5rem;
+            padding: 1.8rem 2.5rem;
+            margin-bottom: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+            transform: translateZ(20px) rotateX(2deg);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .header:hover {
+            transform: translateZ(35px) rotateX(0deg) rotateY(2deg);
+            box-shadow: 0 30px 80px rgba(90, 70, 255, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .header-logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: #fff;
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+            transform: rotateY(-10deg) translateZ(10px);
+            transition: transform 0.3s;
+        }
+        .header-logo:hover {
+            transform: rotateY(0deg) translateZ(20px) scale(1.05);
+        }
+        .header-title {
+            font-weight: 700;
+            font-size: 1.6rem;
+            background: linear-gradient(to right, #c4b5fd, #93c5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+        .header-badge {
+            background: rgba(139, 92, 246, 0.2);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #c4b5fd;
+            backdrop-filter: blur(4px);
+        }
+        /* Form */
+        .form-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            border-radius: 2rem;
+            padding: 1.8rem 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5);
+            transform: translateZ(15px) rotateX(1deg);
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+        .form-card:hover {
+            transform: translateZ(30px) rotateX(0deg) rotateY(1.5deg);
+            box-shadow: 0 35px 90px rgba(59, 130, 246, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+        }
+        .form-row {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+        .form-row input {
+            flex: 1;
+            min-width: 200px;
+            padding: 0.9rem 1.4rem;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.04);
+            color: #eef2f6;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+            backdrop-filter: blur(4px);
+        }
+        .form-row input:focus {
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+        }
+        .form-row input::placeholder {
+            color: #64748b;
+        }
+        .btn {
+            padding: 0.9rem 2rem;
+            border-radius: 40px;
+            border: none;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            color: #fff;
+            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.3);
+            transform: translateZ(5px);
+        }
+        .btn:hover:not(:disabled) {
+            transform: translateZ(15px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(59, 130, 246, 0.5);
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: none;
+            color: #cbd5e1;
+        }
+        .btn-secondary:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.12);
+        }
+        .status-msg {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-top: 0.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .status-msg i {
+            color: #8b5cf6;
+        }
+        .used-badge {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            color: #fca5a5;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        /* Resultado */
+        .result-area {
+            display: none;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .result-area.active {
+            display: flex;
+        }
+        .post-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            border-radius: 2.5rem;
+            padding: 1.8rem 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5);
+            transform: translateZ(15px) rotateX(1deg);
+            transition: all 0.4s ease;
+        }
+        .post-card:hover {
+            transform: translateZ(30px) rotateX(0deg) rotateY(1.5deg);
+            box-shadow: 0 35px 90px rgba(59, 130, 246, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+        }
+        .post-top {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            align-items: flex-start;
+        }
+        .post-thumb {
+            flex-shrink: 0;
+            width: 140px;
+            height: 140px;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+            transform: rotateY(-5deg) translateZ(10px);
+            transition: transform 0.4s;
+        }
+        .post-thumb:hover {
+            transform: rotateY(0deg) translateZ(25px) scale(1.02);
+        }
+        .post-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .post-meta {
+            flex: 1;
+        }
+        .post-owner {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.6rem;
+        }
+        .owner-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            padding: 2px;
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+        }
+        .owner-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #0b0d15;
+        }
+        .owner-name {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: #f0f4ff;
+        }
+        .post-caption {
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 3px solid #8b5cf6;
+            padding: 0.8rem 1.2rem;
+            border-radius: 16px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #d1d9e8;
+            white-space: pre-line;
+        }
+        .post-stats {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 0.3rem 1rem 0.3rem 0.8rem;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .stat-item i {
+            color: #8b5cf6;
+        }
+        .stat-number {
+            font-weight: 700;
+            color: #fff;
+        }
+        /* Comentários */
+        .comments-section {
+            margin-top: 0.5rem;
+        }
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .comments-header h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            background: linear-gradient(to right, #c4b5fd, #93c5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .comments-header span {
+            font-size: 0.85rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            color: #94a3b8;
+        }
+        .comments-grid {
+            display: grid;
+            gap: 0.8rem;
+        }
+        .comment-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(8px);
+            border-radius: 1.5rem;
+            padding: 1rem 1.4rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            transform: translateZ(0px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        .comment-card:hover {
+            transform: translateZ(18px) rotateX(0.5deg) rotateY(1deg);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(139, 92, 246, 0.2);
+        }
+        .comment-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            padding: 2px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+        .comment-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #0b0d15;
+        }
+        .comment-body {
+            flex: 1;
+            min-width: 0;
+        }
+        .comment-username {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #e2e8f0;
+            margin-right: 0.6rem;
+        }
+        .comment-time {
+            font-size: 0.7rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+        .comment-text {
+            margin-top: 0.2rem;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #cbd5e1;
+            word-break: break-word;
+        }
+        .comment-text a {
+            color: #93c5fd;
+            text-decoration: none;
+        }
+        .footer {
+            margin-top: 3rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #475569;
+            padding: 1rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            color: #94a3b8;
+        }
+        .loading i {
+            font-size: 1.5rem;
+            color: #8b5cf6;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        @media (max-width: 640px) {
+            .header {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 1.2rem 1.5rem;
+            }
+            .header-left {
+                justify-content: center;
+            }
+            .header-badge {
+                align-self: center;
+            }
+            .post-top {
+                flex-direction: column;
+                align-items: center;
+            }
+            .post-thumb {
+                width: 100%;
+                max-width: 200px;
+                height: auto;
+                aspect-ratio: 1/1;
+            }
+            .form-row {
+                flex-direction: column;
+            }
+            .btn {
+                justify-content: center;
+            }
+        }
+        .hidden {
+            display: none !important;
+        }
+        .text-red {
+            color: #fca5a5;
+        }
+        .text-green {
+            color: #6ee7b7;
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <!-- HEADER -->
+        <header class="header">
+            <div class="header-left">
+                <div class="header-logo"><i class="fas fa-search"></i></div>
+                <span class="header-title">Insta Scout</span>
+            </div>
+            <div class="header-badge" id="usageBadge">
+                <i class="fas fa-circle" style="color:#6ee7b7;font-size:0.6rem;"></i> 1 consulta disponível
+            </div>
+        </header>
+
+        <!-- FORMULÁRIO -->
+        <div class="form-card" id="formCard">
+            <div class="form-row">
+                <input type="text" id="urlInput" placeholder="Cole o link do Instagram (Reel, Post, TV...)" />
+                <button class="btn" id="fetchBtn"><i class="fas fa-rocket"></i> Consultar</button>
+                <button class="btn btn-secondary" id="resetBtn" style="display:none;"><i class="fas fa-undo"></i> Resetar</button>
+            </div>
+            <div class="status-msg" id="statusMsg">
+                <i class="fas fa-info-circle"></i> <span>Insira um URL e clique em Consultar</span>
+            </div>
+        </div>
+
+        <!-- ÁREA DE RESULTADO -->
+        <div class="result-area" id="resultArea">
+            <!-- Post Preview -->
+            <div class="post-card" id="postPreview">
+                <div class="post-top">
+                    <div class="post-thumb" id="thumbContainer">
+                        <img id="thumbImg" src="" alt="thumbnail" />
+                    </div>
+                    <div class="post-meta">
+                        <div class="post-owner">
+                            <div class="owner-avatar"><img id="ownerAvatar" src="" alt="avatar" /></div>
+                            <span class="owner-name" id="ownerName">@usuario</span>
+                        </div>
+                        <div class="post-caption" id="captionText">Carregando legenda...</div>
+                        <div class="post-stats">
+                            <div class="stat-item"><i class="fas fa-comment"></i> <span class="stat-number" id="commentCount">0</span> comentários</div>
+                            <div class="stat-item"><i class="fas fa-users"></i> <span class="stat-number" id="estimatedTotal">-</span> estimados</div>
+                            <div class="stat-item"><i class="fas fa-calendar-alt"></i> <span id="postDate">-</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comentários -->
+            <section class="comments-section">
+                <div class="comments-header">
+                    <h2><i class="fas fa-message" style="margin-right:8px;color:#8b5cf6;"></i> Participantes</h2>
+                    <span id="commentBadge"><i class="fas fa-user-plus"></i> 0 carregados</span>
+                </div>
+                <div class="comments-grid" id="commentsGrid">
+                    <div class="loading" id="loadingComments">
+                        <i class="fas fa-spinner"></i> Aguardando comentários...
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer class="footer">
+            <p>Powered by instacommentpicker.com · <span id="footerStatus">Limite: 1 consulta por navegador</span></p>
+        </footer>
+    </div>
+
+    <script>
+        (function() {
+            // ----- CONFIG -----
+            const STORAGE_KEY = 'instascout_used';
+            const PROXY_URL = 'https://cors-anywhere.herokuapp.com/'; // fallback proxy (opcional)
+
+            // ----- ELEMENTOS -----
+            const urlInput = document.getElementById('urlInput');
+            const fetchBtn = document.getElementById('fetchBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const statusMsg = document.getElementById('statusMsg');
+            const usageBadge = document.getElementById('usageBadge');
+            const resultArea = document.getElementById('resultArea');
+            const thumbImg = document.getElementById('thumbImg');
+            const ownerAvatar = document.getElementById('ownerAvatar');
+            const ownerName = document.getElementById('ownerName');
+            const captionText = document.getElementById('captionText');
+            const commentCount = document.getElementById('commentCount');
+            const estimatedTotal = document.getElementById('estimatedTotal');
+            const postDate = document.getElementById('postDate');
+            const commentsGrid = document.getElementById('commentsGrid');
+            const commentBadge = document.getElementById('commentBadge');
+            const loadingComments = document.getElementById('loadingComments');
+
+            // ----- ESTADO -----
+            let alreadyUsed = localStorage.getItem(STORAGE_KEY) === 'true';
+            let isFetching = false;
+            let eventSource = null;
+            let commentList = [];
+
+            // ----- ATUALIZAR UI DE USO -----
+            function updateUsageUI() {
+                if (alreadyUsed) {
+                    usageBadge.innerHTML = `<i class="fas fa-circle" style="color:#f87171;font-size:0.6rem;"></i> Consulta já utilizada`;
+                    usageBadge.classList.add('used-badge');
+                    fetchBtn.disabled = true;
+                    fetchBtn.innerHTML = '<i class="fas fa-lock"></i> Esgotado';
+                    statusMsg.innerHTML = `<i class="fas fa-exclamation-circle text-red"></i> <span class="text-red">Você já usou sua única consulta. Recarregue a página ou use outro navegador.</span>`;
+                    resetBtn.style.display = 'inline-flex';
+                } else {
+                    usageBadge.innerHTML = `<i class="fas fa-circle" style="color:#6ee7b7;font-size:0.6rem;"></i> 1 consulta disponível`;
+                    usageBadge.classList.remove('used-badge');
+                    fetchBtn.disabled = false;
+                    fetchBtn.innerHTML = '<i class="fas fa-rocket"></i> Consultar';
+                    resetBtn.style.display = 'none';
+                    statusMsg.innerHTML = `<i class="fas fa-info-circle"></i> <span>Insira um URL e clique em Consultar</span>`;
+                }
+            }
+
+            // ----- RESET (força nova consulta) -----
+            resetBtn.addEventListener('click', function() {
+                localStorage.removeItem(STORAGE_KEY);
+                alreadyUsed = false;
+                // Limpa resultado
+                resultArea.classList.remove('active');
+                commentList = [];
+                commentsGrid.innerHTML = `<div class="loading" id="loadingComments"><i class="fas fa-spinner"></i> Aguardando comentários...</div>`;
+                updateUsageUI();
+            });
+
+            // ----- FUNÇÃO AUXILIAR: requisição GET com proxy (se necessário) -----
+            async function fetchWithProxy(url, options = {}) {
+                // Tenta diretamente, se falhar usa proxy
+                try {
+                    const resp = await fetch(url, {
+                        ...options,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            ...(options.headers || {})
+                        }
+                    });
+                    if (resp.ok) return resp;
+                    throw new Error('CORS ou erro na requisição');
+                } catch (e) {
+                    // fallback com proxy
+                    const proxyUrl = PROXY_URL + url;
+                    const resp2 = await fetch(proxyUrl, {
+                        ...options,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            ...(options.headers || {})
+                        }
+                    });
+                    if (!resp2.ok) throw new Error('Falha mesmo com proxy');
+                    return resp2;
+                }
+            }
+
+            // ----- FUNÇÃO PRINCIPAL: consultar -----
+            async function fetchInstagramData(url) {
+                if (isFetching) return;
+                if (alreadyUsed) {
+                    statusMsg.innerHTML = `<i class="fas fa-exclamation-circle text-red"></i> <span class="text-red">Limite de consulta já atingido.</span>`;
+                    return;
+                }
+
+                // Valida URL
+                const trimmed = url.trim();
+                if (!trimmed) {
+                    statusMsg.innerHTML = `<i class="fas fa-exclamation-circle text-red"></i> <span class="text-red">Por favor, cole um URL.</span>`;
+                    return;
+                }
+                // Tenta extrair o link do Instagram (permite qualquer formato)
+                let instaUrl = trimmed;
+                if (!instaUrl.includes('instagram.com')) {
+                    statusMsg.innerHTML = `<i class="fas fa-exclamation-circle text-red"></i> <span class="text-red">URL inválido. Use um link do Instagram.</span>`;
+                    return;
+                }
+
+                // Codifica a URL para usar no query param
+                const encoded = encodeURIComponent(instaUrl);
+
+                isFetching = true;
+                fetchBtn.disabled = true;
+                fetchBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Buscando...';
+                statusMsg.innerHTML = `<i class="fas fa-spinner fa-spin"></i> <span>Obtendo informações do post...</span>`;
+
+                try {
+                    // 1. GET post-preview
+                    const previewUrl = `https://www.instacommentpicker.com/api/post-preview?url=${encoded}`;
+                    const previewResp = await fetchWithProxy(previewUrl);
+                    const previewData = await previewResp.json();
+
+                    if (!previewData.ok) {
+                        throw new Error('Falha ao obter prévia do post.');
+                    }
+
+                    // Preenche dados do post
+                    thumbImg.src = previewData.thumbnail || '';
+                    ownerAvatar.src = previewData.ownerAvatar || '';
+                    ownerName.textContent = '@' + (previewData.owner || 'usuario');
+                    captionText.textContent = previewData.caption || 'Legenda não disponível';
+                    // data atual (usando a data do header da resposta)
+                    const now = new Date();
+                    postDate.textContent = now.toLocaleDateString('pt-BR');
+                    // estimated total (vai ser atualizado depois)
+                    estimatedTotal.textContent = '...';
+
+                    // Mostra a área de resultado
+                    resultArea.classList.add('active');
+
+                    // Limpa comentários anteriores
+                    commentList = [];
+                    commentsGrid.innerHTML = `<div class="loading" id="loadingComments"><i class="fas fa-spinner"></i> Conectando aos comentários...</div>`;
+
+                    // 2. Gateway check (opcional, mas faremos)
+                    await fetchWithProxy('https://www.instacommentpicker.com/api/gate-check', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ maxComments: 300 })
+                    });
+
+                    // 3. Scrape via Server-Sent Events (usando EventSource diretamente, sem proxy)
+                    // Como o CORS pode bloquear o EventSource, vamos usar fetch com leitura de stream
+                    // Mas para simplificar, tentaremos usar EventSource com o proxy? 
+                    // Na verdade, a API retorna text/event-stream, então podemos usar fetch + leitura de chunks.
+                    // Vou usar fetch com streaming manual.
+
+                    statusMsg.innerHTML = `<i class="fas fa-spinner fa-spin"></i> <span>Coletando comentários em tempo real...</span>`;
+
+                    const scrapeUrl = 'https://www.instacommentpicker.com/api/scrape';
+                    const body = JSON.stringify({ url: instaUrl, maxComments: 300 });
+
+                    // Usar fetch diretamente (se CORS falhar, tentar com proxy, mas o proxy pode não suportar streaming)
+                    // Vamos tentar primeiro sem proxy, se falhar, com proxy (mas proxy pode quebrar o stream)
+                    let response;
+                    try {
+                        response = await fetch(scrapeUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: body
+                        });
+                        if (!response.ok) throw new Error('Falha no scraping');
+                    } catch (e) {
+                        // Tentar com proxy
+                        const proxyScrape = PROXY_URL + scrapeUrl;
+                        response = await fetch(proxyScrape, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: body
+                        });
+                        if (!response.ok) throw new Error('Falha no scraping mesmo com proxy');
+                    }
+
+                    // Processar stream
+                    const reader = response.body.getReader();
+                    const decoder = new TextDecoder('utf-8');
+                    let buffer = '';
+
+                    // Remover loading
+                    const loadingEl = document.getElementById('loadingComments');
+                    if (loadingEl) loadingEl.remove();
+
+                    let firstData = true;
+                    let estimated = 0;
+
+                    while (true) {
+                        const { done, value } = await reader.read();
+                        if (done) break;
+                        buffer += decoder.decode(value, { stream: true });
+                        // Processar linhas
+                        let lines = buffer.split('\n');
+                        buffer = lines.pop() || '';
+                        for (let line of lines) {
+                            if (line.startsWith('data: ')) {
+                                const jsonStr = line.substring(6);
+                                try {
+                                    const data = JSON.parse(jsonStr);
+                                    if (data.type === 'progress' && data.phase === 'connected') {
+                                        estimated = data.estimatedTotal || 0;
+                                        estimatedTotal.textContent = estimated;
+                                        if (firstData) {
+                                            firstData = false;
+                                            // Atualiza status
+                                            statusMsg.innerHTML = `<i class="fas fa-circle text-green" style="font-size:0.6rem;"></i> <span>Conectado · ${estimated} comentários estimados</span>`;
+                                        }
+                                    } else if (data.type === 'comments') {
+                                        const newComments = data.comments || [];
+                                        if (newComments.length > 0) {
+                                            commentList = commentList.concat(newComments);
+                                            renderComments(commentList);
+                                            commentCount.textContent = commentList.length;
+                                            commentBadge.innerHTML = `<i class="fas fa-user-plus"></i> ${commentList.length} carregados`;
+                                            // Atualiza status
+                                            statusMsg.innerHTML = `<i class="fas fa-circle text-green" style="font-size:0.6rem;"></i> <span>Carregados ${commentList.length} comentários</span>`;
+                                        }
+                                    }
+                                } catch (e) {
+                                    // ignorar
+                                }
+                            }
+                        }
+                    }
+
+                    // Fim do stream
+                    statusMsg.innerHTML = `<i class="fas fa-check-circle text-green"></i> <span class="text-green">Concluído! ${commentList.length} comentários carregados.</span>`;
+                    // Marcar como usado
+                    localStorage.setItem(STORAGE_KEY, 'true');
+                    alreadyUsed = true;
+                    updateUsageUI();
+                    fetchBtn.disabled = true;
+                    fetchBtn.innerHTML = '<i class="fas fa-check"></i> Concluído';
+
+                } catch (error) {
+                    console.error(error);
+                    statusMsg.innerHTML = `<i class="fas fa-exclamation-circle text-red"></i> <span class="text-red">Erro: ${error.message || 'Falha na consulta'}</span>`;
+                    fetchBtn.disabled = false;
+                    fetchBtn.innerHTML = '<i class="fas fa-rocket"></i> Consultar';
+                } finally {
+                    isFetching = false;
+                    if (!alreadyUsed) {
+                        fetchBtn.disabled = false;
+                        fetchBtn.innerHTML = '<i class="fas fa-rocket"></i> Consultar';
+                    }
+                }
+            }
+
+            // ----- RENDERIZAR COMENTÁRIOS -----
+            function renderComments(comments) {
+                const grid = commentsGrid;
+                // Se tiver loading, remove
+                const loading = document.getElementById('loadingComments');
+                if (loading) loading.remove();
+
+                grid.innerHTML = '';
+                comments.forEach(c => {
+                    const card = document.createElement('div');
+                    card.className = 'comment-card';
+                    const avatarUrl = c.profilePicUrl || 'https://via.placeholder.com/40';
+                    const timeAgo = (ts) => {
+                        const now = Math.floor(Date.now() / 1000);
+                        const diff = now - ts;
+                        if (diff < 60) return 'agora';
+                        if (diff < 3600) return Math.floor(diff / 60) + 'm';
+                        if (diff < 86400) return Math.floor(diff / 3600) + 'h';
+                        if (diff < 604800) return Math.floor(diff / 86400) + 'd';
+                        return new Date(ts * 1000).toLocaleDateString('pt-BR');
+                    };
+                    card.innerHTML = `
+                        <div class="comment-avatar"><img src="${avatarUrl}" alt="${c.username}" loading="lazy" /></div>
+                        <div class="comment-body">
+                            <span class="comment-username">@${c.username}</span>
+                            <span class="comment-time">· ${timeAgo(c.timestamp)}</span>
+                            <div class="comment-text">${c.text}</div>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+
+            // ----- EVENTOS -----
+            fetchBtn.addEventListener('click', function() {
+                const url = urlInput.value.trim();
+                fetchInstagramData(url);
+            });
+
+            // Enter no campo
+            urlInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    fetchBtn.click();
+                }
+            });
+
+            // Inicializar UI
+            updateUsageUI();
+
+            // Se já usado, esconder resultado (caso recarregue)
+            if (alreadyUsed) {
+                resultArea.classList.remove('active');
+                // Mas se quiser manter resultado? Deixamos vazio.
+            }
+
+            // Exemplo de URL pré-preenchido (opcional)
+            // urlInput.value = 'https://www.instagram.com/reel/DaieW9hvexk/';
+        })();
+    </script>
+</body>
+</html>
